@@ -6,20 +6,20 @@ module.exports = function (controller) {
                 var spark = new CiscoSpark(process.env.SPARK_TOKEN);
         
                 bot.startConversation(message, function (err, convo) {
-                    var question = "What name do you want for the new room?";
+                    var question = "¿Qué nombre ponemos al nuevo espacio?";
                     convo.ask(question, [
                       {
                             default: true,
                             callback: function (response, convo) {
                                 var membershipParameters = {"roomId": message.channel };
                                 var roomName = response.text;
-                                convo.say("Creating room " + "**"+response.text +"**...");
+                                convo.say("Creando el espacio " + "**"+response.text +"**...");
                             async.waterfall([
                                    function (callback){
                                       spark.rooms.create({"title": roomName}, function(err, response) {
                                           if(err)
                                           {
-                                              convo.say("I am sorry, there was an error creating the room, Please contact administrator.");
+                                              convo.say("Lo siento mucho, hubo un error al crear el nuevo espacio. Por favor, contacta con el administrador.");
                                               convo.next(); 
                                             }
                                           else{
@@ -32,7 +32,7 @@ module.exports = function (controller) {
                                         spark.memberships.list(membershipParameters, function(err, response) {
                                             if(err)
                                             {
-                                              convo.say("I am sorry, there was an error creating the room, Please contact administrator.");
+                                              convo.say("Lo siento mucho, hubo un error al crear el nuevo espacio. Por favor, contacta con el administrador.");
                                               convo.next();
                                              }
                                           else{
@@ -48,11 +48,11 @@ module.exports = function (controller) {
                                          spark.memberships.create(param, function(err, response){
                                             console.log(err);   });
                                         });
-                                        convo.say("I have created the room. You can check it now.");
+                                        convo.say("Ya he creado el espacio. Puedes ir a verlo.");
                                         convo.next();
                                      }
                                      else{
-                                        convo.say("I am sorry, there was an error creating the room, Please contact administrator.");
+                                        convo.say("Lo siento mucho, hubo un error al crear el nuevo espacio. Por favor, contacta con el administrador.");
                                         convo.next();
                                       }
                                     }
